@@ -1,0 +1,9 @@
+{% extends "films/base_films.html" %}
+
+{% block content %}
+	<form action="" method="post">
+		{% csrf_token %}
+		{% bootstrap_form %}
+		{% buttons submit="add" %}
+	</form>
+{% endblock %}

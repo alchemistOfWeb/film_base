@@ -1,0 +1,54 @@
+{% load film_tag %}
+{% get_genres as genres %}
+<div class="search-bar w3layouts-newsletter">
+	<h3 class="">Looking for film</h3>
+	<form action="{% url 'film_list' %}" method="get" class="d-flex" id="search-form">
+		<input type="search" placeholder="search..." name="search"
+			   class="form-control me-3">
+		<button type="submit" class="btn btn-success">
+			<span class="" aria-hidden="true">search</span>
+		</button>
+
+
+
+	</form>
+</div>
+
+<div class="my-4">
+	<h5 class="">search by...</h5>
+	<div class="form-check">
+		<input value="0" form="search-form" class="form-check-input" type="radio"
+			   name="by" id="by_film_title_radio" checked>
+		<label class="form-check-label" for="flexRadioDefault1">
+			by film title
+		</label>
+	</div>
+	<div class="form-check">
+		<input value="1" form="search-form" class="form-check-input" type="radio"
+			   name="by" id="by_actor_radio">
+		<label class="form-check-label" for="flexRadioDefault2">
+			by actor
+		</label>
+	</div><div class="form-check">
+		<input value="2" form="search-form" class="form-check-input" type="radio"
+			   name="by" id="by_director_radio">
+		<label class="form-check-label" for="flexRadioDefault2">
+			by director
+		</label>
+	</div>
+</div>
+
+<div class="my-4">
+	<h3 class="">Genres</h3>
+	<ul class="list-group">
+
+		{% for genre in genres %}
+			<li class="list-group-item list-group-item-secondary">
+				<input value="{{ genre.pk }}" name="genre" form="search-form"
+					   type="checkbox" class="form-check-input mr-1">
+				<span class="">{{ genre.title }}</span>
+			</li>
+		{% endfor %}
+
+	</ul>
+</div>

@@ -1,0 +1,40 @@
+<div class="card {{ class }}"
+     style="width: 18rem; background-color: #a7ccbd">
+    <img src="{{ film.poster.url }}" class="card-img-top img-fluid"
+         alt="poster of the film" style="height: 45%">
+    <div class="card-body">
+        <h5 class="card-title">{{ film.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted" style="height: 40px">
+            {% for genre in film.genres.all %}
+                <span>{{ genre }}, </span>
+            {% endfor %}
+
+        </h6>
+        <p class="card-text">
+            <span>description: </span><span>{{ film.description|truncatechars:100 }}</span>
+        </p>
+
+        <a href="#" class="btn btn-primary">edit film</a>
+        <a href="{{ film.get_absolute_url }}" class="btn btn-info">more about</a>
+
+        <div class="mt-3">
+            <form action="" method="post">
+                <label for="customRange2"
+                       class="form-label h5 text-warning"
+                       style="text-shadow: 1px 1px 4px black">
+                    average rating: 4.7
+                </label>
+                <div class="rating-area d-flex flex-row-reverse justify-content-end mb-3" id="customRange2">
+                    {% for star in '54321' %}
+                        <input type="radio" id="{{ film.title }}-star-{{ star }}" name="rating" value="{{ star }}">
+                        <label for="{{ film.title }}-star-{{ star }}" title="Оценка «{{ star }}»"></label>
+
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-success">save</button>
+<!--                <input type="range" class="form-range" min="0" max="10" id="customRange2">-->
+            </form>
+        </div>
+
+    </div>
+</div>

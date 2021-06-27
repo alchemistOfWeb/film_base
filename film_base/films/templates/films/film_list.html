@@ -1,0 +1,13 @@
+{% extends "films/base.html" %}
+
+{% block content %}
+    <div class="d-flex flex-wrap">
+    {% for film in films %}
+<!--        <div class="px-0">-->
+        {% include "films/includes/film_card.html" with film=film class="mx-2 mb-3" %}
+
+<!--        </div>-->
+    {% endfor %}
+    </div>
+
+{% endblock %}
