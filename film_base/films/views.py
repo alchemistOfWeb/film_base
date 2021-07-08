@@ -1,9 +1,15 @@
+from django.contrib import messages
+from django.http import request
+from django.http.response import JsonResponse
+from .forms import RatingForm
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.urls.base import reverse
 from django.views.generic import ListView, DetailView
-from django.views.generic.base import View
+from django.views.generic.base import TemplateView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Film, Genre
-from .forms import ReviewForm
+from .models import Actor, Director, Film, Genre, Score
+# from .forms import ReviewForm
 
 
 class FilmsView(ListView):
@@ -31,10 +37,9 @@ class FilmsView(ListView):
         if genre_list:
             params['genres__id__in'] = genre_list
 
-        print(params)
 
         filtered = Film.objects.filter(**params).distinct()
-        print(filtered)
+
         return filtered
 
     def get_queryset(self):
@@ -51,35 +56,67 @@ class FilmDetailView(DetailView):
     template_name = 'films/film_detail.html'
 
 
-class AddReview(View):
+class FilmEditView(LoginRequiredMixin, View):
+    permission_denied_message = "NO! You are not authenticated for this action!"
+    login_url = 'login/'
+    raise_exception = True
+
+    def get(self, request, film_pk):
+
+        filtered_actors = Actor.objects.exclude(films__id=film_pk)
+        filtered_directors = Director.objects.exclude(films__id=film_pk)
+
+        context = {'film': Film.objects.get(pk=film_pk), 'actors': filtered_actors, 'directors': filtered_directors}
+
+        return render(request, template_name='films/edit.html', context=context)
+
     def post(self, request, film_pk):
-        form = ReviewForm(request.POST)
+        print(request.POST)
+        
+        film = Film.objects.get(pk=film_pk)
+        film.actors.set(request.POST.getlist('actors'))
+        film.directors.set(request.POST.getlist('directors'))
+
+        messages.success(request, 'success')
+        return redirect(reverse('edit_film', args=[film_pk]))
+
+
+class AddRatingStar(LoginRequiredMixin, View):
+    permission_denied_message = "NO! You are not authenticated for this action!"
+    raise_exception = True
+    
+    def post(self, request, film_pk):
+
+        # if not request.user.is_authenticated:
+        # return JsonResponse({'status': 403, 'message': request.user.username})
+            
+
+        form = RatingForm(request.POST)
 
         if form.is_valid():
-            form = form.save(commit=False)
-            form.film_id = film_pk
-            form.save()
-
-        return redirect("/")
-
-
-# class FilterFilmsView(ListView):
-#     def get_queryset(self):
-#         possibles = {'actor','film_title', 'director'}
-#         search_by = {}
-#
-#         queryset = Film.objects.filter(
-#             actor=self.request.GET.get
-#             genre__in=self.request.GET.getlist("genre")
-#         )
+            Score.objects.update_or_create(
+                author_id=request.user.pk,
+                film_id=film_pk,
+                defaults={
+                    'value': request.POST.get('rating')
+                }
+            )
+            film = Film.objects.get(pk=film_pk)
+            
+            return JsonResponse({'status': 201, 'average_score': '{0:1.1f}'.format(film.get_average_score()), 'user': request.user.id})
+        else:
+            return JsonResponse({'status': 400})
 
 
-# class SearchFilm(ListView):
-#     def get_queryset(self):
-#         return Film.objects.filter
+# class AddReview(View):
+#     ...
+    # def post(self, request, film_pk):
+    #     form = ReviewForm(request.POST)
 
-class EditFilm(View):
-    ...
+    #     if form.is_valid():
+    #         form = form.save(commit=False)
+    #         form.film_id = film_pk
+    #         form.save()
 
-
+    #     return redirect(reverse('film', ))
 

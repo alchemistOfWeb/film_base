@@ -9,13 +9,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> {% block title %} Document {% endblock %} </title>
     <link rel="stylesheet" href="{% static 'films/css/rating_stars.css' %}">
+    <link rel="stylesheet" href="{% static 'films/css/badge.css' %}">
 
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+    </script>
+
     {% block resources %} {% endblock %}
 </head>
 <body>
-    {% block main %} {% endblock %}
+    <div class="d-flex flex-column align-items-center">
+        {% block main %} {% endblock %}
+    </div>
 </body>
 </html>

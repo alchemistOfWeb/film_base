@@ -1,13 +1,23 @@
 {% extends "films/base.html" %}
+{% load static %}
+
+{% block resources %}
+    
+{% endblock resources %}
 
 {% block content %}
     <div class="d-flex flex-wrap">
     {% for film in films %}
 <!--        <div class="px-0">-->
-        {% include "films/includes/film_card.html" with film=film class="mx-2 mb-3" %}
+        {% include "films/includes/film_card.html" with film=film class="mx-2 mb-3 film-card" %}
 
 <!--        </div>-->
     {% endfor %}
     </div>
 
+    
 {% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'films/js/set_rating_handler.js' %}"></script>
+{% endblock javascript %}

@@ -1,0 +1,26 @@
+{% extends "accounts/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block messages %}
+    {% bootstrap_messages %}
+{% endblock messages %}
+
+{% block content %}
+
+
+    <div class="d-flex justify-content-center">
+        {% if user.is_authenticated %}
+            <p>You've already logged in</p>
+        {% else %}
+            <form method="POST" action="{% url "login" %}">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+                {% bootstrap_button "login" button_type="submit" button_class="btn-primary" %}
+
+                <p>Have not been registered yet? <a href="{% url 'register' %}">register</a></p>
+            </form>
+        {% endif %} 
+    </div>
+    
+{% endblock content %}

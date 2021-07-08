@@ -1,0 +1,15 @@
+<h5 class="m-1 attaching-block" {% if is_hidden %}hidden{% endif %}>
+    <span class="badge bg-primary rounded-pill d-flex justify-content-between align-items-center">
+        <span class="selected-option-name">{{ title }}</span>
+        <span 
+        aria-hidden="true" 
+        class="rounded-circle bg-light text-dark px-1 ms-2 detach-option-btn badge-close" 
+        {% if can_detach %}
+            style="cursor: pointer;"
+            {% comment %} onclick="fnDetachOption($(this), 'select-permissions')" {% endcomment %}
+        {% endif %}
+
+        >&times;</span>
+    </span>
+    <input type="text" name="{{ select_name }}" value="{{ value }}" class="attaching-option-hidden" hidden {% if is_disabled %}disabled{% endif %}>
+</h5>

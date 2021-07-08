@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} Auth {% endblock %}
+
+{% block resources %} {% endblock %}
+
+{% block main %}
+    <div 
+    class="container-fluid messages position-fixed text-light my-3 px-7 d-flex flex-column align-items-center justify-content-center" style="z-index: 1060;">
+        {% block messages %}
+
+            
+
+        {% endblock messages %} 
+    </div>
+
+    {% include "films/includes/header.html" %}
+
+    <div class="container-fluid py-2">
+        
+        {% block content %} {% endblock%}
+
+    </div>
+{% endblock %}

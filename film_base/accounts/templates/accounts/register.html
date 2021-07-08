@@ -1,0 +1,23 @@
+{% extends "accounts/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block messages %}
+    {% bootstrap_messages %}
+{% endblock messages %}
+
+{% block content %}
+    
+    
+    <div class="d-flex justify-content-center">
+        
+        <form method="POST" action="{% url 'register' %}">
+
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button "sign up" button_type="submit" button_class="btn-primary" %}
+            
+            <p>Have you been already registered? <a href="{% url 'login' %}">login</a></p>
+        </form>
+    </div>
+    
+{% endblock content %}

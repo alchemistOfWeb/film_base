@@ -1,0 +1,31 @@
+{% load film_tag %}
+
+{% comment %} <label class="my-1 mr-2" for="{{ id }}">{{ select_name }}:</label> {% endcomment %}
+
+<div class="d-flex flex-wrap attached-list" data-for-select="{{ id }}">  
+    <!-- Here is the place for permission blocks   -->
+
+    {% include 'films/includes/bages/bage_item.html' with can_detach=can_detach can_attach=can_attach select_name=select_name value='0' title='-' is_disabled=True is_hidden=True %}
+    
+    {% for item in items %}
+        {% include 'films/includes/bages/bage_item.html' with can_detach=can_detach can_attach=can_attach select_name=select_name value=item.pk title=item|getattr:item_name %}
+    
+    {% endfor %}
+
+</div>
+
+
+<div class="input-group my-3" >    
+    <label class="input-group-text" for="{{ id }}">{{ label }}</label>
+    <select 
+    class="selectpicker" 
+    data-live-search="true" 
+    id="{{ id }}" 
+    data-style="border ms-3 border-primary"
+    title="choose one of the following">
+        {% for item in filtered_items %}
+            <option value="{{ item.id }}" data-tokens="{{ item|getattr:item_name }}">{{ item|getattr:item_name }}</option>
+            
+        {% endfor %}
+    </select>
+</div>

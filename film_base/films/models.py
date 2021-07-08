@@ -9,12 +9,14 @@ class Film(models.Model):
     description = models.TextField(max_length=5000, verbose_name='description')
     poster = models.ImageField(upload_to='posters/%Y/%m/%d/')
 
+    STARS_NUMBER = 5
+
     genres = models.ManyToManyField('Genre',
                                     verbose_name='genre',
                                     related_name='films', null=True)
     directors = models.ManyToManyField('Director',
-                                       verbose_name='directors',
-                                       related_name='films', null=True)
+                                    verbose_name='directors',
+                                    related_name='films', null=True)
     actors = models.ManyToManyField('Actor',
                                     verbose_name='actors',
                                     related_name='films', null=True)
@@ -26,9 +28,18 @@ class Film(models.Model):
         return reverse('film_detail', kwargs={'film_pk': self.pk})
 
     def get_average_score(self):
-        scores = self.scores.objects.all()
+        scores = self.score_set.all()
 
-        return sum(map(lambda score: score.value, scores)) / len(scores)
+        result = 0
+
+        if scores:
+            print('hello:::::::::', scores)
+            result = sum(map(lambda score: score.value, scores)) / len(scores)
+
+        return result
+
+    def get_stars_range(self):
+        return range(self.STARS_NUMBER, 0, -1)
 
     class Meta:
         verbose_name = 'Film'

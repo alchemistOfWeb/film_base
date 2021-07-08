@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %} profile {% endblock %}
+
+
+{% block content %} 
+    <ul class="list-group">
+        <li class="list-group-item"><span class="text-secondary">username:</span> {{ user.username }}</li>
+        <li class="list-group-item"><span class="text-secondary">id:</span> {{ user.pk }}</li>
+        <li class="list-group-item"><span class="text-secondary">email:</span> {{ user.email }}</li>
+    </ul>
+{% endblock content%}
