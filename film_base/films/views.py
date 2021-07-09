@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Actor, Director, Film, Genre, Score
+from .models import Actor, Director, Film, Genre, Review, Score
 # from .forms import ReviewForm
 
 
@@ -30,7 +30,7 @@ class FilmsView(ListView):
 
         if request_by:
             params[f'{self.by[int(request_by)]}__icontains'] \
-                = self.request.GET.get('search')
+                = self.request.GET.get('search') 
 
         genre_list = self.request.GET.getlist("genre")
 
@@ -106,6 +106,21 @@ class AddRatingStar(LoginRequiredMixin, View):
             return JsonResponse({'status': 201, 'average_score': '{0:1.1f}'.format(film.get_average_score()), 'user': request.user.id})
         else:
             return JsonResponse({'status': 400})
+
+
+class AddReview(LoginRequiredMixin, View):
+    permission_denied_message = "NO! You are not authenticated for this action!"
+    raise_exception = True
+
+    def post(self, request, film_pk):
+        # print(request.POST.get('text'))
+        Review.objects.create(
+            film_id=film_pk,
+            user_id=request.user.id,
+            text=request.POST.get('text')
+        )
+
+        return redirect(reverse('film_detail', args=[film_pk]))
 
 
 # class AddReview(View):

@@ -20,11 +20,12 @@
         <h4 class=" text-secondary"> Edit film <span class="h2 text-dark"> {{ film.title }} <span></h2>
         <hr>
         
-            
+        <h6>actors: </h6>
         {% include 'films/includes/bages/bage_list_input.html' with items=film.actors.all filtered_items=actors can_attach=user.is_authenticated can_detach=user.is_authenticated item_name='name' select_name='actors' id='select-actors' label='add actor:' %}
         
         <hr>
             
+        <h6>directors: </h6>
         {% include 'films/includes/bages/bage_list_input.html' with items=film.directors.all filtered_items=directors can_attach=user.is_authenticated can_detach=user.is_authenticated item_name='name' select_name='directors' id='select-directors' label='add director:' %}
         
         <hr>

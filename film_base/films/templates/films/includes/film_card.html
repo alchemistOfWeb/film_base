@@ -1,3 +1,4 @@
+{% load film_tag %}
 <div class="card {{ class }}"
      style="width: 18rem; background-color: #a7ccbd"
      data-film-id="{{ film.pk }}">
@@ -27,12 +28,25 @@
                     average rating: <span>{{ film.get_average_score|floatformat:1 }}</span>
                 </label>
                 <div class="rating-area d-flex flex-row-reverse justify-content-end mb-3" id="average-score">
+
+                    {% get_user_film_score film user as user_film_score %}
+
                     {% for star in film.get_stars_range %}
-                        <input type="radio" id="{{ film.title }}-star-{{ star }}" name="rating" value="{{ star }}">
+                        <input 
+                        type="radio" 
+                        id="{{ film.title }}-star-{{ star }}" 
+                        name="rating" value="{{ star }}"
+                        
+
+                        {% comment %} {{ user.score_set|get_score_by_film_id:film.pk as user_film_score }} {% endcomment %}
+                        {% if user_film_score == star %}checked{% endif %}
+                        >
                         <label for="{{ film.title }}-star-{{ star }}" title="Оценка «{{ star }}»"></label>
 
                     {% endfor %}
                 </div>
+                <span class="h5">imDB: {{ film.get_imdb_rating }}</span>
+                {% comment %} <span class="h5">kinopoisk: {% get_kinopoisk_rating film %}</span> {% endcomment %}
                 {% comment %} <button type="submit" class="btn btn-success">save</button> {% endcomment %}
 <!--                <input type="range" class="form-range" min="0" max="10" id="customRange2">-->
 

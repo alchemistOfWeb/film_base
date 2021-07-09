@@ -150,3 +150,8 @@ LOGOUT_REDIRECT_URL = '/films/'
 PASSWORD_RESET_TIMEOUT_DAYS = 3
 
 # AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
+
+# APIs
+
+IMDB_API_KEY = 'k_kw87c9f9'
