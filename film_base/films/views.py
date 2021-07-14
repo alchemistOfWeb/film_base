@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http import request
 from django.http.response import JsonResponse
-from .forms import RatingForm
+from .forms import CreateActorForm, CreateDirectorForm, RatingForm
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls.base import reverse
 from django.views.generic import ListView, DetailView
@@ -123,15 +123,28 @@ class AddReview(LoginRequiredMixin, View):
         return redirect(reverse('film_detail', args=[film_pk]))
 
 
-# class AddReview(View):
-#     ...
-    # def post(self, request, film_pk):
-    #     form = ReviewForm(request.POST)
+class CreateActorView(LoginRequiredMixin, View):
+    permission_denied_message = "NO! You are not authenticated for this action!"
+    raise_exception = True
 
-    #     if form.is_valid():
-    #         form = form.save(commit=False)
-    #         form.film_id = film_pk
-    #         form.save()
+    def post(self, request):
+        form = CreateActorForm(request.POST)
+        if form.is_valid():
+            Actor.objects.create(name=request.POST.get('person_name'))
+            return JsonResponse({'status': 201})
+        else:
+            return JsonResponse({'status': 400})
 
-    #     return redirect(reverse('film', ))
 
+
+class CreateDirectorView(LoginRequiredMixin, View):
+    permission_denied_message = "NO! You are not authenticated for this action!"
+    raise_exception = True
+
+    def post(self, request):
+        form = CreateDirectorForm(request.POST)
+        if form.is_valid():
+            Director.objects.create(name=request.POST.get('person_name'))
+            return JsonResponse({'status': 201})
+        else:
+            return JsonResponse({'status': 400})

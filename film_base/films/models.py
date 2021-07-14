@@ -1,3 +1,4 @@
+from .exceptions import IMDBConnectionError, IMDBException
 import requests, json
 from django.db import models
 from django.core import validators
@@ -5,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.conf import settings
-
+from .functions import get_imdb_id, get_imdb_rating
 
 class Film(models.Model):
     title = models.CharField(max_length=255, verbose_name='title')
@@ -22,7 +23,7 @@ class Film(models.Model):
     LANG='en'
 
     genres = models.ManyToManyField('Genre',
-                                    verbose_name='genre',
+                                    verbose_name='genres',
                                     related_name='films')
     directors = models.ManyToManyField('Director',
                                     verbose_name='directors',
@@ -31,8 +32,7 @@ class Film(models.Model):
                                     verbose_name='actors',
                                     related_name='films')
 
-                            
-
+            
     def __str__(self):
         return self.title
 
@@ -41,7 +41,6 @@ class Film(models.Model):
 
     def get_average_score(self):
         scores = self.score_set.all()
-
         result = 0
 
         if scores:
@@ -56,44 +55,35 @@ class Film(models.Model):
     def get_stars_range(self):
         return range(self.STARS_NUMBER, 0, -1)
 
-    def get_imdb_id(self):
-        if not self.imdb_id:
-            self.do_save = True
-
-            request_film = requests.get(f'https://imdb-api.com/{self.LANG}/API/SearchMovie/{settings.IMDB_API_KEY}/{self.title}')
-
-            if request_film.status_code != 200 :
-                return ''
-
-            film_data = json.loads(request_film.text)
-
-            if film_data['errorMessage'] != '':
-                return ''
-            
-            imdb_film_id = film_data['results'][0]['id']
-            self.imdb_id = imdb_film_id
-        
-        return self.imdb_id
-
     def get_imdb_rating(self):
-        if not self.get_imdb_id():
+        do_save = False
+
+        try:
+            if not self.imdb_id:
+                self.imdb_id = get_imdb_id(self.title, settings.IMDB_API_KEY, lang=settings.API_LANG)
+                do_save = True
+
+            if not self.imdb_rating:
+                self.imdb_rating = get_imdb_rating(self.imdb_id, settings.IMDB_API_KEY, lang=settings.API_LANG)
+                do_save = True
+        except IMDBException as e:
+            if settings.DEBUG:
+                print('IMDBException ERROR: ', e.message)
+                raise IMDBException(e.message)
+
             return ''
+        except IMDBConnectionError as e:
+            if settings.DEBUG:
+                print('IMDBException ERROR: {e.message} Status code: {e.status_code}')
+                raise IMDBConnectionError(e.message, e.status_code)
 
-        if not self.imdb_rating:
-            self.do_save = True
-            request_film_rating = requests.get(f'https://imdb-api.com/{self.LANG}/API/Ratings/{settings.IMDB_API_KEY}/{self.imdb_id}')
-
-            ratings_data = json.loads(request_film_rating.text)
-            if request_film_rating.status_code != 200 or ratings_data['error_message'] != '':
-                return ''
-
-            imdb_film_rating = ratings_data['imDb']
-            self.imdb_rating = imdb_film_rating
+            return ''
         
-        if self.do_save:
+        if do_save:
             self.save()
 
         return self.imdb_rating
+
 
     class Meta:
         verbose_name = 'Film'

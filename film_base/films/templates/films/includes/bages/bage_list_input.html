@@ -8,19 +8,36 @@
     {% include 'films/includes/bages/bage_item.html' with can_detach=can_detach can_attach=can_attach select_name=select_name value='0' title='-' is_disabled=True is_hidden=True %}
     
     {% for item in items %}
-        {% include 'films/includes/bages/bage_item.html' with can_detach=can_detach can_attach=can_attach select_name=select_name value=item.pk title=item|getattr:item_name %}
+        {% include 'films/includes/bages/bage_item.html' with can_detach=can_detach can_attach=can_attach select_name=select_name value=item.pk title=item|getattr:item_name form_id=form_id %}
     
     {% endfor %}
 
 </div>
 
+<div hidden data-for-select="{{ id }}" class="hidden-block-for-selectpicker">
+    {% comment %} need for data-none-results-text field in selectpicker {% endcomment %}
+    <form action="{% url adding_url_name %}" method="POST">
+        no results. 
+        {% csrf_token %}
+        
+        <button 
+        type="button" 
+        class="btn btn-sm btn-primary" 
+        onclick="console.log('hello'); (add_person.bind(this))()"
+        >
+            Add now
+        </button>
+    </form>
+</div>
 
 <div class="input-group my-3" >    
     <label class="input-group-text" for="{{ id }}">{{ label }}</label>
     <select 
     class="selectpicker" 
     data-live-search="true" 
+    data-none-results-text="f"
     id="{{ id }}" 
+    form="{{ form_id }}"
     data-style="border ms-3 border-primary"
     title="choose one of the following">
         {% for item in filtered_items %}

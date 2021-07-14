@@ -28,7 +28,7 @@ SECRET_KEY = 'secret'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -155,3 +155,5 @@ PASSWORD_RESET_TIMEOUT_DAYS = 3
 # APIs
 
 IMDB_API_KEY = 'k_kw87c9f9'
+
+API_LANG = 'en'

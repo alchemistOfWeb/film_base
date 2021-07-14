@@ -27,6 +27,7 @@
                        style="text-shadow: 1px 1px 4px black">
                     average rating: <span>{{ film.get_average_score|floatformat:1 }}</span>
                 </label>
+                <p class="h6" >Your assessment:</p>
                 <div class="rating-area d-flex flex-row-reverse justify-content-end mb-3" id="average-score">
 
                     {% get_user_film_score film user as user_film_score %}
