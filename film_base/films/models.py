@@ -54,7 +54,7 @@ class Film(models.Model):
             score = self.score_set.get(author_id=user_id)
         except ObjectDoesNotExist:
             return 0
-            
+
         return score.value
 
     def get_stars_range(self):
