@@ -1,18 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http.response import HttpResponse
-from django.views.generic.detail import DetailView
 from .forms import RegistrationForm
-from typing import Any, Dict
 
-from django import http # is not important
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.base import View, TemplateView
+from django.views.generic.base import TemplateView
 
 
 def register_page(request):
@@ -42,5 +35,3 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     login_url = 'login/'
     raise_exception = True
     template_name = 'accounts/profile.html'
-
-

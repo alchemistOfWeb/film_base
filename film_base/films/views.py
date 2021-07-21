@@ -1,15 +1,12 @@
 from django.contrib import messages
-from django.http import request
 from django.http.response import JsonResponse
 from .forms import CreateActorForm, CreateDirectorForm, RatingForm
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse
 from django.views.generic import ListView, DetailView
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from .models import Actor, Director, Film, Genre, Review, Score
-# from .forms import ReviewForm
 
 
 class FilmsView(ListView):
@@ -86,11 +83,6 @@ class AddRatingStar(LoginRequiredMixin, View):
     raise_exception = True
     
     def post(self, request, film_pk):
-
-        # if not request.user.is_authenticated:
-        # return JsonResponse({'status': 403, 'message': request.user.username})
-            
-
         form = RatingForm(request.POST)
 
         if form.is_valid():
@@ -134,7 +126,6 @@ class CreateActorView(LoginRequiredMixin, View):
             return JsonResponse({'status': 201})
         else:
             return JsonResponse({'status': 400})
-
 
 
 class CreateDirectorView(LoginRequiredMixin, View):

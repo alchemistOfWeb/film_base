@@ -2,6 +2,7 @@ from .exceptions import IMDBConnectionError, IMDBException
 import requests, json
 from django.db import models
 from django.core import validators
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
@@ -49,7 +50,11 @@ class Film(models.Model):
         return result
 
     def get_score_of_user(self, user_id):
-        score = self.score_set.get(author_id=user_id)
+        try:
+            score = self.score_set.get(author_id=user_id)
+        except ObjectDoesNotExist:
+            return 0
+            
         return score.value
 
     def get_stars_range(self):
