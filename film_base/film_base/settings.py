@@ -13,21 +13,23 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 import os
+import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# env_file = os.path.join(BASE_DIR, '.env')
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret'
+SECRET_KEY = env.str('SECRET_KEY', 'sample_secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = env.bool('DEBUG', default=False)
+print(DEBUG)
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
@@ -143,9 +145,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = '/films/'
+LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_REDIRECT_URL = '/films/'
+LOGOUT_REDIRECT_URL = '/'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 3
 

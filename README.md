@@ -20,19 +20,23 @@
 ## 1. Getting started
 Чтобы запустить приложение у себя:
 ```bash
-cd нужный каталог
-git clone https://github.com/alchemistOfWeb/film_base.git
-cd film_base
-python -m venv venv
-pip install -r requests.txt
+> cd нужный каталог
+> git clone https://github.com/alchemistOfWeb/film_base.git
+> cd film_base
+> python -m venv venv
+> pip install -r requirements.txt
 ```
+после, находим файл /film_base/film_base/.env.example 
+переименовываем его в .env и вносим изменения: 
+устанавливаем секретный ключ и отключаем/включаем режим дебагаа 
+
 далее, для запуска:
 ```bash
-cd film_base
-python manage.py migrate
-python manage.py createsuperuser
-// вводим имя, email, пароль
-python manage.py runserver
+# идём в каталог с manage.py, потом
+> python manage.py migrate
+> python manage.py createsuperuser
+# вводим имя, email, пароль, затем запускаем сервер
+> python manage.py runserver
 ```
 ## 2. Функционал приложения
 ### 2.1 Поиск фильмов

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from .models import Actor, Director, Film, Genre, Review, Score
 
 
@@ -78,7 +78,7 @@ class FilmEditView(LoginRequiredMixin, View):
         return redirect(reverse('edit_film', args=[film_pk]))
 
 
-class AddRatingStar(LoginRequiredMixin, View):
+class AddRatingStar(LoginRequiredMixin,  View):
     permission_denied_message = "NO! You are not authenticated for this action!"
     raise_exception = True
     
