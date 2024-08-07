@@ -1,4 +1,5 @@
 import path from "./gulpconfig/path.js";
+import app from "./gulpconfig/app.js";
 
 import gulp from "gulp";
 import browserSync from "browser-sync";
@@ -10,7 +11,6 @@ import js from "./gulptasks/js.js";
 import img from "./gulptasks/img.js";
 import icon from "./gulptasks/icon.js";
 import font from "./gulptasks/font.js";
-import app from "./config/app.js";
 
 
 const watcher = () => {

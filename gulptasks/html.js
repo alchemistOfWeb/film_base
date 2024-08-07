@@ -1,5 +1,5 @@
-const path = require("../config/path.js");
-const app = require("../config/app.js")
+const path = require("../gulpconfig/path.js");
+const app = require("../gulpconfig/app.js")
 
 const { dest, src } = require("gulp");
 const fileinclude = require("gulp-file-include");

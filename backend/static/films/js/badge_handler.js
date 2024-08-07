@@ -1,5 +1,5 @@
 $(()=>{
-    $('.detach-option-btn').bind('click', function(){
+    $('.detach-option-btn').on('click', function(){
         $att_block = $(this).closest('.attaching-block')
 
         $attached_list = $(this).closest('.attached-list')

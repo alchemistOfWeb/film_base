@@ -18,6 +18,7 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print('-'*50 +'\n' + f'basedir {BASE_DIR}')
 # env_file = os.path.join(BASE_DIR, '.env')
 env = environ.Env()
 environ.Env.read_env()
@@ -144,9 +145,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'films/static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'static_finder.StaticRootFinder',  # Указываем путь к новому файлу поиска
 ]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

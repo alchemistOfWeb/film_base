@@ -1,5 +1,5 @@
-import path from "../config/path.js";
-import app from "../config/app.js";
+import path from "../gulpconfig/path.js";
+import app from "../gulpconfig/app.js";
 
 import gulp from "gulp";
 import plumber from "gulp-plumber";
