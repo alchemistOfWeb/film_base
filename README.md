@@ -23,12 +23,11 @@
 > cd нужный каталог
 > git clone https://github.com/alchemistOfWeb/film_base.git
 > cd film_base
-> python -m venv venv
-> pip install -r requirements.txt
+> poetry install
 ```
-после, находим файл /film_base/film_base/.env.example 
+после, находим файл /backend/options/.env.example 
 переименовываем его в .env и вносим изменения: 
-устанавливаем секретный ключ и отключаем/включаем режим дебагаа 
+устанавливаем секретный ключ и отключаем/включаем режим дебага
 
 далее, для запуска:
 ```bash
