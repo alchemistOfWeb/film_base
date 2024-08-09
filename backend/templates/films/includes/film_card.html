@@ -1,0 +1,33 @@
+{% load film_tag %}
+<div 
+    class="card film-card text-center bg-dark text-white {{ class }}"
+    style="width: 18rem; background-color: #a7ccbd"
+    data-film-id="{{ film.pk }}">
+    <img 
+        src="{{ film.poster.url }}" 
+        class="card-img h-100"
+        alt="poster of the film">
+    <div class="card-img-overlay d-flex flex-column justify-content-between">
+        <div>
+            <h5 class="card-title">{{ film.title }}</h5>
+            <h6 class="card-subtitle mb-2" style="height: 40px">
+                {% for genre in film.genres.all %}
+                    <span>{{ genre }}, </span>
+                {% endfor %}
+            </h6>
+            <p class="card-text">
+                <span>{{ film.description|truncatechars:100 }}</span>
+            </p>
+        </div>
+        <div class="d-flex justify-content-between">
+            {% get_user_film_score film user as user_film_score %}
+            <span class="fs-2 badge text-bg-warning">
+                {{ user_film_score }}
+            </span>
+            <a href="{{ film.get_absolute_url }}" class="btn btn-info fw-bold fs-5">Подробнее</a>
+        </div>
+    </div>
+    {% comment %} <div class="card-body">
+        <a href="{% url 'edit_film' film.pk %}" class="btn btn-primary {% if not user.is_authenticated %}disabled{% endif %}">edit film</a>
+    </div> {% endcomment %}
+</div>

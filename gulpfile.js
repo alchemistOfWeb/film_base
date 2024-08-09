@@ -38,7 +38,7 @@ const build = gulp.series(
 
 const dev = gulp.series(
     build,
-    gulp.parallel(watcher, server)
+    gulp.parallel(watcher)
 );
 
 export { scss, js, img, icon, font, watcher, clear }

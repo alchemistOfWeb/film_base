@@ -5,6 +5,8 @@
 // @import "../../node_modules/aos/dist/aos";
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import "../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+@import "../../node_modules/bootstrap/scss/variables";
+
 
 .rating-area {
 	overflow: hidden;
@@ -57,4 +59,35 @@
 .badge-close {
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+// new
+
+.rating-star {
+	color: $light;
+}
+.rating-star.active {
+	color: gold;
+}
+// .overlay-shadow {
+// 	box-shadow: $box-shadow-inset;
+// }
+// .filter-brightness-dark {
+// 	filter: brightness(0.2);
+// }
+
+
+.film-card {
+	transition-duration: .3s;
+	&:hover > .card-img {
+		transition-duration: .7s;
+		filter: brightness(0.2);
+	}
+	& > .card-img-overlay {
+		opacity: 0;
+	}
+	&:hover > .card-img-overlay {
+		transition-duration: .7s;
+		opacity: 1;
+	}
 }

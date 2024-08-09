@@ -1,0 +1,21 @@
+<div class="stars" data-rating="{% if rating %}{{ rating }}{% endif %}">
+    {% for star in stars %}
+        <i class="bi bi-star-fill rating-star {% if forloop.counter < active_num %}active{% endif %}"></i>
+    {% endfor %}
+</div>
+
+{% comment %}     
+{% for star in film.get_stars_range %}
+    <input 
+    type="radio" 
+    id="{{ film.title }}-star-{{ star }}" 
+    name="rating" value="{{ star }}"
+    {{ user.score_set|get_score_by_film_id:film.pk as user_film_score }}
+    {% if user_film_score == star %}checked{% endif %}>
+    <label for="{{ film.title }}-star-{{ star }}" title="Оценка «{{ star }}»"></label>
+{% endfor %} 
+{% endcomment %}
+
+{% comment %} <form action="{% url 'set_film_rating' film.pk %}" method="post">
+    {% csrf_token %}
+</form> {% endcomment %}
